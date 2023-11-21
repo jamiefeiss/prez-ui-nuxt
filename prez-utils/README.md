@@ -1,0 +1,2 @@
+# Prez UI Utils
+This is a JS library that contains framework-independent logic to send API requests, process RDF, and other non-display logic for resuse in Prez UI (& potentially other non-Vue applications).

@@ -14,16 +14,25 @@
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": true,
+        // "noEmit": true,
+        "outDir": "dist",
+        "declaration": true,
         /* Linting */
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "dist",
-        "declaration": true,
+        "paths": {
+            "@/*": [
+                "./*"
+            ]
+        }
     },
+    "exclude": [
+        "src/main.ts"
+    ],
     "include": [
-        "src"
+        "src/**/*.ts",
+        "src/**/*.d.ts",
     ]
 }

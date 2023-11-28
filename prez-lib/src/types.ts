@@ -1,10 +1,21 @@
-import type { ListItemProps } from "prez-utils";
+import type { ListItem } from "prez-utils";
 
 export interface ButtonProps {
     color?: "primary" | "secondary";
     size?: "sm" | "lg";
 };
 
-export interface ListItemTableProps {
-    items: ListItemProps[];
+export interface ListTableProps {
+    items: ListItem[];
+    predicates?: {
+        label: string;
+        uri: string;
+    }[];
+}
+
+export interface ObjectTableProps {
+    properties: {
+        predicate: string;
+        object: string;
+    }[];
 }

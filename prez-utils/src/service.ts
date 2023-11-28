@@ -1,7 +1,5 @@
-import type { ProfileHeader, LinkObject, ListItemProps } from "./types";
+import type { ProfileHeader, LinkObject, ListItem, ObjectItem } from "./types";
 import { RDFStore } from "./store";
-
-const API_BASE_URL = "http://localhost:8000";
 
 class NetworkError extends Error {
     constructor(message: string) {
@@ -76,8 +74,8 @@ function getProfilesFromHeaders(link: string): ProfileHeader[] {
  * @param url 
  * @returns 
  */
-async function apiGet(path: string) {
-    const r = await fetch(`${API_BASE_URL}${path}`, {
+async function apiGet(url: string) {
+    const r = await fetch(url, {
         method: "GET",
         headers: {
             "Accept": "text/anot+turtle"
@@ -136,20 +134,21 @@ async function apiGet(path: string) {
  * 
  * @returns a list of catalog objects
  */
-export async function getCatalogs(): Promise<ListItemProps[]> {
-    const { data } = await apiGet("/c/catalogs");
+export async function getCatalogs(apiBaseUrl: string, predicates?: {label: string, uri: string}[]): Promise<ListItem[]> {
+    const { data } = await apiGet(`${apiBaseUrl}/c/catalogs`);
     console.log(data)
     const store = new RDFStore();
     store.load(data);
-    return store.getItemList("dcat:Catalog");
+    return store.getItemList("dcat:Catalog", predicates);
 }
 
-// // export async function getCatalog(curie: string) {
-// //     const { data } = await apiGet(`/c/catalog/${curie}`);
-// //     const store = new RDFStore();
-// //     store.load(data);
-// //     return store.getObjectTable(store.toUri("dcat:Catalog"));
-// // }
+export async function getCatalog(apiBaseUrl: string, curie: string): Promise<ObjectItem> {
+    const { data } = await apiGet(`${apiBaseUrl}/c/catalogs/${curie}`);
+    console.log(data)
+    const store = new RDFStore();
+    store.load(data);
+    return store.getObjectTable("dcat:Catalog");
+}
 
 // export async function getResources() {
 

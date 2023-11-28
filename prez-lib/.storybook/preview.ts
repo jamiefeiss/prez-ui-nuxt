@@ -1,4 +1,10 @@
-import type { Preview } from "@storybook/vue3";
+import { type Preview, setup } from "@storybook/vue3";
+import PrimeVue from "primevue/config";
+import "primevue/resources/themes/lara-dark-indigo/theme.css";
+
+setup((app) => {
+    app.use(PrimeVue);
+});
 
 const preview: Preview = {
   parameters: {

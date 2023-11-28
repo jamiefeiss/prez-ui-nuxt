@@ -1,5 +1,5 @@
 import { Store, Parser, DataFactory, type Quad_Object, type Quad_Subject } from "n3";
-import type { Prefixes, ListItemProps } from "./types";
+import type { Prefixes, ListItem, ObjectItem } from "./types";
 import { ANNOTATION_PREDICATES, DEFAULT_PREFIXES } from "./consts";
 import { defaultToUri, defaultFromUri } from "./helpers";
 
@@ -84,7 +84,7 @@ export class RDFStore {
      */
     public getObjects(subject: string, predicate: string | string[]): Quad_Object[] {
         if (typeof predicate === "string") {
-            return this.store.getObjects(subject, predicate, null);
+            return this.store.getObjects(namedNode(subject), namedNode(predicate), null);
         } else {
             const objs: Quad_Object[] = [];
             predicate.forEach(p => {
@@ -134,7 +134,28 @@ export class RDFStore {
         return this.getAnnotation(uri, "provenance");
     }
 
-    // // public getObjectTable(baseClass: string): ObjectTableProps { }
+    public getObjectTable(baseClass: string): ObjectItem {
+        const uri = this.getSubjects(this.toUri("a"), this.toUri(baseClass))[0].value;
+        const item: ObjectItem = {
+            uri: uri,
+            label: this.getLabel(uri),
+            description: this.getDescription(uri),
+            properties: []
+        };
+
+        this.store.forEach(q => {
+            if (q.predicate.value === this.toUri("prez:link")) {
+                item.link = q.object.value;
+            } else {
+                item.properties.push({
+                    predicate: q.predicate.value,
+                    object: q.object.value
+                });
+            }
+        }, namedNode(uri), null, null, null);
+
+        return item;
+    }
 
     /**
      * Returns a list of item objects
@@ -142,15 +163,16 @@ export class RDFStore {
      * @param baseClass the object type to return
      * @returns a list of item objects
      */
-    public getItemList(baseClass: string): ListItemProps[] {
-        const items: ListItemProps[] = [];
+    public getItemList(baseClass: string, predicates?: {label: string, uri: string}[]): ListItem[] {
+        const items: ListItem[] = [];
         // TODO: need to check for top-level base class to determine whether to use getSubjects() or getObjects()
 
         // top-level objects
         const objs = this.getSubjects(this.toUri("a"), this.toUri(baseClass));
         objs.forEach(obj => {
-            const item: ListItemProps = {
-                uri: obj.value
+            const item: ListItem = {
+                uri: obj.value,
+                extras: {}
             };
 
             item.label = this.getLabel(obj.value);
@@ -159,8 +181,13 @@ export class RDFStore {
             this.store.forEach(q => {
                 if (q.predicate.value === this.toUri("prez:link")) {
                     item.link = q.object.value;
+                } else if (predicates) {
+                    const index = predicates.map(p => p.uri).indexOf(q.predicate.value);
+                    if (index > -1) {
+                        item.extras![predicates[index].label] = q.object.value;
+                    }
                 }
-            }, obj, null, null, null)
+            }, obj, null, null, null);
             items.push(item);
         });
         return items;

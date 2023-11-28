@@ -1,8 +1,22 @@
-export interface ListItemProps {
+export interface ListItem {
     label?: string;
     uri: string;
     description?: string;
     link?: string;
+    extras?: {
+        [key: string]: string;
+    };
+};
+
+export interface ObjectItem {
+    label?: string;
+    uri: string;
+    description?: string;
+    link?: string;
+    properties: {
+        predicate: string;
+        object: string;
+    }[];
 };
 
 // export interface ObjectRowProps {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import { vueRouter } from "storybook-vue3-router";
 
 import ListTable from "../components/ListTable.vue";
 
@@ -38,3 +39,7 @@ export const Default: Story = {
         ]
     },
 };
+
+Default.decorators = [
+    vueRouter()
+];

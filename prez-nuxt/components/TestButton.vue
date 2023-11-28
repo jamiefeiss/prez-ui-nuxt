@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { TestButton, type ButtonProps } from "prez-lib";
+// import { TestButton, type ButtonProps } from "prez-lib";
 
-const props = defineProps<ButtonProps>();
+// const props = defineProps<ButtonProps>();
 </script>
 
 <template>
-    <TestButton v-bind="props"><slot></slot></TestButton>
+    <!-- <TestButton v-bind="props"><slot></slot></TestButton> -->
+    <button>Button</button>
 </template>

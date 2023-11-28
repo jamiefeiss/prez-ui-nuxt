@@ -1,34 +1,7 @@
 <script lang="ts" setup>
-import TestButton from "./components/TestButton.vue";
-import ListTable from "./components/ListTable.vue";
-
-const items = [
-    {
-        uri: "uri 1",
-        label: "label 1",
-        link: "link 1",
-        description: "description 1",
-    },
-    {
-        uri: "uri 2",
-        label: "label 2",
-        link: "link 2",
-        description: "description 2",
-    },
-    {
-        uri: "uri 3",
-        label: "label 3",
-        link: "link 3",
-        description: "description 3",
-    },
-]
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-    <TestButton>Button</TestButton>
-    <ListTable :items="items" />
+    <RouterView></RouterView>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

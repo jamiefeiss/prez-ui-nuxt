@@ -2,7 +2,7 @@
 import { RouterLink } from "vue-router";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { ListTableProps } from "../types";
+import type { ListTableProps } from "prez-lib";
 
 const props = defineProps<ListTableProps>();
 </script>
@@ -11,7 +11,7 @@ const props = defineProps<ListTableProps>();
     <DataTable :value="props.items" stripedRows tableStyle="min-width: 50rem">
         <Column field="label" header="Label" sortable>
             <template #body="slotProps">
-                <RouterLink v-if="slotProps.data.link" :to="slotProps.data.link">{{ slotProps.data.label || slotProps.data.uri }}</RouterLink>
+                <RouterLink v-if="slotProps.data.link" :to="slotProps.data.link">Overridden {{ slotProps.data.label || slotProps.data.uri }}</RouterLink>
                 <template v-else>{{ slotProps.data.label || slotProps.data.uri }}</template>
             </template>
         </Column>

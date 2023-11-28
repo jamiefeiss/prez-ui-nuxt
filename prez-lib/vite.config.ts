@@ -19,7 +19,7 @@ export default defineConfig({
             fileName: "prez-lib",
         },
         rollupOptions: {
-            external: ["vue"],
+            external: ["vue", "vue-router"],
             output: {
                 globals: {
                     vue: "Vue",

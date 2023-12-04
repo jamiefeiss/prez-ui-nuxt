@@ -15,6 +15,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         // "noEmit": true,
+        "jsx": "preserve",
         "outDir": "dist",
         "declaration": true,
         /* Linting */
@@ -29,10 +30,20 @@
         }
     },
     "exclude": [
-        "src/main.ts"
+        "src/App.vue",
+        "src/main.ts",
+        "src/router/index.ts",
+        "src/stories/*.ts"
     ],
     "include": [
         "src/**/*.ts",
         "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/components/**/*.vue"
+    ],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
     ]
 }
